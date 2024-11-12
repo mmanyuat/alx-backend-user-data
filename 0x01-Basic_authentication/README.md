@@ -1,31 +1,42 @@
-# Basic Authentication Project
+# Simple API
 
-This project involves implementing a Basic Authentication system on a simple API using Python and Flask. The goal is to understand the authentication process by developing key components of this system from scratch.
+Simple HTTP API for playing with `User` model.
 
-## Project Details
 
-- **Category**: Back-end
-- **Focus**: Authentication
-- **Duration**: Nov 11, 2024, 5:00 AM to Nov 13, 2024, 5:00 AM
+## Files
 
-## Learning Objectives
+### `models/`
 
-By completing this project, you will be able to:
-1. Explain the purpose and principles of authentication.
-2. Understand and use Base64 encoding.
-3. Implement Basic Authentication using the `Authorization` HTTP header.
-4. Manage HTTP status codes for unauthorized and forbidden requests (401, 403).
+- `base.py`: base of all models of the API - handle serialization to file
+- `user.py`: user model
 
-## Resources
+### `api/v1`
 
-- [REST API Authentication Mechanisms](https://link_to_resource)
-- [Base64 in Python](https://link_to_resource)
-- [HTTP Authorization Header](https://link_to_resource)
-- [Flask Documentation](https://link_to_resource)
+- `app.py`: entry point of the API
+- `views/index.py`: basic endpoints of the API: `/status` and `/stats`
+- `views/users.py`: all users endpoints
 
-## Project Setup
 
-1. Install dependencies:
-   ```bash
-   pip3 install -r requirements.txt
+## Setup
 
+```
+$ pip3 install -r requirements.txt
+```
+
+
+## Run
+
+```
+$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
+```
+
+
+## Routes
+
+- `GET /api/v1/status`: returns the status of the API
+- `GET /api/v1/stats`: returns some stats of the API
+- `GET /api/v1/users`: returns the list of users
+- `GET /api/v1/users/:id`: returns an user based on the ID
+- `DELETE /api/v1/users/:id`: deletes an user based on the ID
+- `POST /api/v1/users`: creates a new user (JSON parameters: `email`, `password`, `last_name` (optional) and `first_name` (optional))
+- `PUT /api/v1/users/:id`: updates an user based on the ID (JSON parameters: `last_name` and `first_name`)
