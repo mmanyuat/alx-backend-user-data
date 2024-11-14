@@ -3,15 +3,16 @@
 Route module for the API
 """
 from os import getenv
-from api.v1.views import app_views, index
 from flask import Flask, jsonify, abort, request
-from api.v1.views.index import app_views
 from flask_cors import (CORS, cross_origin)
 import os
+from api.v1.views.index import app_views
 
 
 app = Flask(__name__)
-app.register_blueprint(app_views)
+
+app.register_blueprint(app_views, url_prefix="/api/v1")
+
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
@@ -24,11 +25,14 @@ def not_found(error) -> str:
 
 @app.errorhandler(401)
 def unauthorized_error(error):
-    """Error unauthorized handler
-    """
-    return jsonify({
-        "error": "Unauthorized"
-        }), 401
+    """Error unauthorized handler"""
+    return jsonify({"error": "Unauthorized"}), 401
+
+
+@app.errorhandler(403)
+def forbidden(error):
+    """returns a forbidden error"""
+    return jsonify({"error": "Forbidden"}), 403
 
 
 if __name__ == "__main__":
