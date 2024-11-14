@@ -22,7 +22,7 @@ class Auth:
                 return False
 
         return True
-    
+
     def authorization_header(self, request=None) -> str:
         """
         Retrieves the authorization header from the request.
