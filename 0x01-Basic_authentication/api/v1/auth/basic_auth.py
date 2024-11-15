@@ -13,6 +13,7 @@ class BasicAuth(Auth):
     def extract_base64_authorization_header(
         self, authorization_header: str
     ) -> str:
+        """Extracts the header for authorization"""
         if authorization_header is None or not isinstance(
             authorization_header, str
         ):
@@ -24,6 +25,7 @@ class BasicAuth(Auth):
     def decode_base64_authorization_header(
         self, base64_authorization_header: str
     ) -> str:
+        """Decodes the header"""
         if base64_authorization_header is None or not isinstance(
             base64_authorization_header, str
         ):
@@ -37,6 +39,7 @@ class BasicAuth(Auth):
     def extract_user_credentials(
         self, decoded_base64_authorization_header: str
     ) -> (str, str):
+        """extract the credentials of the user"""
         if (
             decoded_base64_authorization_header is None
             or not isinstance(decoded_base64_authorization_header, str)
@@ -52,6 +55,7 @@ class BasicAuth(Auth):
     def user_object_from_credentials(
         self, user_email: str, user_pwd: str
     ) -> TypeVar("User"):
+        """Gets the user object credentials"""
         if not user_email or not isinstance(user_email, str):
             return None
         if not user_pwd or not isinstance(user_pwd, str):
@@ -77,12 +81,10 @@ class BasicAuth(Auth):
         Returns:
             User instance or None if authentication fails.
         """
-        # Retrieve the Authorization header
         authorization_header = self.authorization_header(request)
         if authorization_header is None:
             return None
 
-        # Extract and decode the Base64 part of the header
         base64_header = self.extract_base64_authorization_header(
             authorization_header
         )
@@ -93,10 +95,8 @@ class BasicAuth(Auth):
         if decoded_header is None:
             return None
 
-        # Extract email and password from decoded header
         user_email, user_pwd = self.extract_user_credentials(decoded_header)
         if user_email is None or user_pwd is None:
             return None
 
-        # Retrieve and return the User instance
         return self.user_object_from_credentials(user_email, user_pwd)
