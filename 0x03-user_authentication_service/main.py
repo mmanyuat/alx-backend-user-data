@@ -2,31 +2,21 @@
 """
 Main file
 """
-import logging
-from sqlalchemy.exc import InvalidRequestError
-from sqlalchemy.orm.exc import NoResultFound
-from db import DB
+from auth import Auth
 
-# Suppress SQLAlchemy debug logs
-logging.getLogger('sqlalchemy.engine').setLevel(logging.ERROR)
+email = 'me@me.com'
+password = 'mySecuredPwd'
 
-my_db = DB()
-
-user = my_db.add_user("test@test.com", "PwdHashed")
-print(user.id)
-
-find_user = my_db.find_user_by(email="test@test.com")
-print(find_user.id)
+auth = Auth()
 
 try:
-    find_user = my_db.find_user_by(email="test2@test.com")
-    print(find_user.id)
-except NoResultFound:
-    print("Not found")
+    user = auth.register_user(email, password)
+    print("successfully created a new user!")
+except ValueError as err:
+    print("could not create a new user: {}".format(err))
 
 try:
-    find_user = my_db.find_user_by(no_email="test@test.com")
-    print(find_user.id)
-except InvalidRequestError:
-    print("Invalid")
-
+    user = auth.register_user(email, password)
+    print("successfully created a new user!")
+except ValueError as err:
+    print("could not create a new user: {}".format(err))        
