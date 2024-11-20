@@ -10,6 +10,7 @@ class Auth:
     """Authentication class to interact with the authentication database."""
 
     def __init__(self):
+        """A constructor"""
         self.db = DB()
 
     @staticmethod
